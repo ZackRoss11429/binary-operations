@@ -1,82 +1,135 @@
-# Add feature for passing binary through each gate (10110110 AND 10001101 = 10000100)
+def booleanType():
+    def AND():  # Will return true only if all boolean values are TRUE/1
+        if booleanvalues.count("TRUE") + booleanvalues.count("1") == len(booleanvalues):
+            print("When " + str(booleanvalues) + " is ran through an AND gate, it returns TRUE")
 
-def AND():  # Will return true only if all boolean values are TRUE/1
-    if booleanvalues.count("TRUE") + booleanvalues.count("1") == len(booleanvalues):
-        print("When " + str(booleanvalues) + " is ran through an AND gate, it returns TRUE")
+        else:
+            print("When " + str(booleanvalues) + " is ran through an AND gate, it returns FALSE")
 
-    else:
-        print("When " + str(booleanvalues) + " is ran through an AND gate, it returns FALSE")
+    def OR():  # Will return true if at least one of the boolean values are TRUE/1
+        if booleanvalues.count("TRUE") + booleanvalues.count("1") > 0:
+            print("When " + str(booleanvalues) + " is ran through the OR gate, it returns TRUE")
+
+        else:
+            print("When " + str(booleanvalues) + " is ran through the OR gate, it returns FALSE")
+
+    def XOR():  # Will return true only if at least 1 boolean value is TRUE/1 but not all of them
+        if (booleanvalues.count("TRUE") + booleanvalues.count("1")) < len(booleanvalues):
+            print("When " + str(booleanvalues) + " is ran through the XOR gate, it returns TRUE")
+
+        else:
+            print("When " + str(booleanvalues) + " is ran through the XOR gate, it returns FALSE")
+
+    def NOR():  # Will return true only if no values are TRUE/1
+        if booleanvalues.count("FALSE") + booleanvalues.count("0") == len(booleanvalues):
+            print("When " + str(booleanvalues) + " is ran through the NOR gate, it returns TRUE")
+
+        else:
+            print("When " + str(booleanvalues) + " is ran through the NOR gate, it returns FALSE")
+
+    def XNOR():  # Will return true only if both values are TRUE/1 or FALSE/0
+        if booleanvalues.count("TRUE") + booleanvalues.count("1") == len(booleanvalues) \
+                or booleanvalues.count("FALSE") + booleanvalues.count("0") == len(booleanvalues):
+            print("When " + str(booleanvalues) + " is ran through the XNOR gate, it returns TRUE")
+
+        else:
+            print("When " + str(booleanvalues) + " is ran through the XNOR gate, it returns FALSE")
+
+    booleanvalues = []  # Contains all the inputted boolean values to be calculated
+    valuelist = ["TRUE", "FALSE", "1", "0"]  # Contains all the valid boolean values the user can input
+    operationlist = ["AND", "OR", "NOT", "XOR", "NOR", "XNOR"]  # Contains all the valid operations a user can use
+
+    while True:  # Loops requesting the user what operation they want. It will loop only if they request an invalid operation
+        operationchoice = input("Choose an operation: AND, OR, XOR, XNOR or NOR\n")
+        if operationchoice.upper() in operationlist:  # Breaks the loop if the user requests a valid operation
+            break
+        else:
+            print("That's not a valid operation.")
+
+    # Asks the user for which boolean operation they wish to use
+    i = 1  # counter variable for the loop that ask
+    while True:  # Runs until user has inputted all their desired boolean values as long as there's >1 value inputted
+        booleans = input("Input a boolean value (TRUE/FALSE)\n or STOP if submitted more than 2 values: \n")
+        i += 1
+        if booleans.upper() == "STOP" and i < 3:
+            print("Please input at least TWO boolean values")
+        elif booleans.upper() == "STOP" and i > 3:
+            break
+        elif booleans.upper() not in valuelist:
+            print("That is not a valid boolean value or stop request")
+        else:
+            booleanvalues.append(booleans)
+            print(booleanvalues)
+    # Conditionals above ensure the user has inputted a valid boolean value
+    # Or has finished inputting the boolean values they want, so long as they've inputted >1 value
+
+    eval(operationchoice.upper() + "()")
+    # Will detect which operation the user has requested and runs the correct function
 
 
-def OR():  # Will return true if at least one of the boolean values are TRUE/1
-    if booleanvalues.count("TRUE") + booleanvalues.count("1") > 0:
-        print("When " + str(booleanvalues) + " is ran through the OR gate, it returns TRUE")
+def listType():
+    def AND(statement1, statement2):
+        if statement1 == "1" and statement2 == "1":
+            return "1"
+        else:
+            return "0"
 
-    else:
-        print("When " + str(booleanvalues) + " is ran through the OR gate, it returns FALSE")
+    def OR(statement1, statement2):
+        if statement1 == "1" or statement2 == "1":
+            return "1"
+        else:
+            return "0"
 
+    def XOR(statement1, statement2):
+        if statement1 != statement2:
+            return "1"
+        else:
+            return "0"
 
-def NOT():  # Will return true only if all boolean values are FALSE/0
-    if booleanvalues.count("FALSE") + booleanvalues.count("0") == len(booleanvalues):
-        print("When " + str(booleanvalues) + " is ran through the NOT gate, it returns TRUE")
+    def NOR(statement1, statement2):
+        if statement1 == "0" and statement2 == "0":
+            return "1"
+        else:
+            return "0"
 
-    else:
-        print("When " + str(booleanvalues) + " is ran through the NOT gate, it returns FALSE")
+    def XNOR(statement1, statement2):
+        if statement1 == statement2:
+            return "1"
+        else:
+            return "0"
 
+    while True:  # Loops requesting the user what operation they want. It will loop only if they request an invalid operation
+        operationlist = ['AND', 'OR', 'NOT', "XOR", "NOR", "XNOR"]
+        operationchoice = input("Write your boolean argument (example '1 AND 0 OR 1 XOR 1 NOT 1')\n")
+        print(operationchoice.split())
 
-def XAND():  # Will return true only if the boolean values are either all TRUE/1 or all FALSE/0
-    if booleanvalues.count("TRUE") + booleanvalues.count("1") == len(booleanvalues):
-        print("When " + str(booleanvalues) + " is ran through the XAND gate, it returns TRUE")
+        if len(operationchoice.split()) < 3 or len(operationchoice.split()) % 2 != 0:
+            print("You haven't written your argument with at least two values and one argument")
 
-    elif booleanvalues.count("TRUE") + booleanvalues.count("1") == 0:
-        print("When " + str(booleanvalues) + " is ran through the XAND gate, it returns TRUE")
+        if opertionchoice.count("AND"):
+            print("You have not selected a valid function call (AND, OR, NOT, XOR, XOR, NOR, XNOR)")
 
-    else:
-        print("When " + str(booleanvalues) + "is ran through the XAND gate, it returns FALSE")
+        for x in range(0, len(operationchoice.split()), 2):
+            if operationchoice.split()[x] != 0 or operationchoice != 1:
+                print("You must be passing through binary values, ie 1 or 0")
+                break
 
-
-def XOR():  # Will return true only if at least 1 boolean value is TRUE/1 but not all of them
-    if (booleanvalues.count("TRUE") + booleanvalues.count("1")) < len(booleanvalues):
-        print("When " + str(booleanvalues) + " is ran through the XOR gate, it returns TRUE")
-
-    else:
-        print("When " + str(booleanvalues) + " is ran through the XOR gate, it returns FALSE")
-
-
-def NOR():  # Will return true only if no values are TRUE/1
-    if booleanvalues.count("FALSE") + booleanvalues.count("0") == len(booleanvalues):
-        print("When " + str(booleanvalues) + " is ran through the NOR gate, it returns TRUE")
-
-    else:
-        print("When " + str(booleanvalues) + " is ran through the NOR gate, it returns FALSE")
-
-
-booleanvalues = []  # Contains all the inputted boolean values to be calculated
-valuelist = ["TRUE", "FALSE", "1", "0"]  # Contains all the valid boolean values the user can input
-operationlist = ["AND", "OR", "NOT", "XOR", "NOR", "XAND"]  # Contains all the valid operations a user can use
-
-while True:  # Loops requesting the user what operation they want. It will loop only if they request an invalid operation
-    operationchoice = input("Choose an operation: AND, OR, NOT, XAND, XOR or NOR\n")
-    if operationchoice.upper() in operationlist:  # Breaks the loop if the user requests a valid operation
+        operation = operationchoice.split()
+        tally = []
+        for i in range(0, len(operation)):
+            tally.append(eval(operation[1].upper() + "(" + operation[0] + ", " + operation[2] + ")"))
+            del operation[0], operation[1], operation[2]
+            print(str(tally))
         break
-    else:
-        print("That's not a valid operation.")
 
-# Asks the user for which boolean operation they wish to use
-i = 1  # counter variable for the loop that ask
-while True:  # Runs until user has inputted all their desired boolean values as long as there's >1 value inputted
-    booleans = input("Input a boolean value (TRUE/FALSE)\n or STOP if submitted more than 2 values: \n")
-    i += 1
-    if booleans.upper() == "STOP" and i < 3:
-        print("Please input at least TWO boolean values")
-    elif booleans.upper() == "STOP" and i > 3:
-        break
-    elif booleans.upper() not in valuelist:
-        print("That is not a valid boolean value or stop request")
-    else:
-        booleanvalues.append(booleans)
-        print(booleanvalues)
-# Conditionals above ensure the user has inputted a valid boolean value
-# Or has finished inputting the boolean values they want, so long as they've inputted >1 value
 
-eval(operationchoice.upper() + "()")  # Will detect which operation the user has requested and runs the correct function
+while True:
+    binaryboolean = input("Choose whether you want to calculate with BOOLEAN or LIST\n")
+    if binaryboolean.upper() == "BOOLEAN":
+        booleanType()
+
+    elif binaryboolean.upper() == "LIST":
+        listType()
+
+    else:
+        print("That is an invalid decision.")
