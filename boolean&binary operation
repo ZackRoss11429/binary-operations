@@ -67,59 +67,82 @@ def booleanType():
     # Will detect which operation the user has requested and runs the correct function
 
 
-def listType():
-    def AND(statement1, statement2):
-        if statement1 == "1" and statement2 == "1":
-            return "1"
+def listType():  # this works similarly but it works where the user inputs a string containing multiple arguments
+    # example: 1 AND 0 AND 0 OR 1 XNOR 1
+    def AND(statement1, statement2):  # AND gate, if both values passed through are 1, it returns 1. Else 0
+        if statement1 == 1 and statement2 == 1:
+            return '1'
         else:
-            return "0"
+            return '0'
 
-    def OR(statement1, statement2):
-        if statement1 == "1" or statement2 == "1":
-            return "1"
+    def OR(statement1, statement2):  # OR gate, if at least one value passed through is 1, it returns 1. Else 0
+        if statement1 != 0 and statement2 != 0:
+            return '1'
         else:
-            return "0"
+            return '0'
 
-    def XOR(statement1, statement2):
+    def XOR(statement1, statement2):  # OR gate, if only one value passed through is 1, it returns 1. Else 0
         if statement1 != statement2:
-            return "1"
+            return '1'
         else:
-            return "0"
+            return '0'
 
-    def NOR(statement1, statement2):
-        if statement1 == "0" and statement2 == "0":
-            return "1"
+    def NOR(statement1, statement2):  # NOR gate, if both values passed through are 0, it returns 1. Else 0
+        if statement1 == 0 and statement2 == 0:
+            return '1'
         else:
-            return "0"
+            return '0'
 
-    def XNOR(statement1, statement2):
+    def XNOR(statement1, statement2):  # XNOR gate, if both values passed through are 1 or 0, it returns 1. Else 0
         if statement1 == statement2:
-            return "1"
+            return '1'
         else:
-            return "0"
+            return '0'
 
     while True:  # Loops requesting the user what operation they want. It will loop only if they request an invalid operation
-        operationlist = ['AND', 'OR', 'NOT', "XOR", "NOR", "XNOR"]
-        operationchoice = input("Write your boolean argument (example '1 AND 0 OR 1 XOR 1 NOT 1')\n")
-        print(operationchoice.split())
+        operationlist = ['AND', 'OR', 'XOR', 'NOR', 'XNOR']  # valid operations the user can input
+        operationchoice = input(
+            "Write your boolean argument (example '1 AND 0 OR 1 XOR 1 NOT 1')\n(Possible arguments: " + ', '.join(
+                operationlist) + ")\n")
 
-        if len(operationchoice.split()) < 3 or len(operationchoice.split()) % 2 != 0:
+        if len(operationchoice) < 3 or len(operationchoice) % 2 == 0:
             print("You haven't written your argument with at least two values and one argument")
+            # error checks if input contains less than 1 argument and 2 bits (and 2 bits per argument)
 
-        if opertionchoice.count("AND"):
-            print("You have not selected a valid function call (AND, OR, NOT, XOR, XOR, NOR, XNOR)")
+        if not any(y in operationchoice for y in operationlist):
+            print("You haven't inputted any / the correct arguments (AND, OR, NOT, XOR, NOR, XNOR")
+            # error checks if user input contains only valid arguments
 
-        for x in range(0, len(operationchoice.split()), 2):
-            if operationchoice.split()[x] != 0 or operationchoice != 1:
-                print("You must be passing through binary values, ie 1 or 0")
-                break
+        if not any(z in operationchoice for z in ("0", "1")):
+            print("You must be passing through binary values, ie 1 or 0")
+            # error checks if user input only contains binary bits (0, 1)
 
-        operation = operationchoice.split()
-        tally = []
-        for i in range(0, len(operation)):
-            tally.append(eval(operation[1].upper() + "(" + operation[0] + ", " + operation[2] + ")"))
-            del operation[0], operation[1], operation[2]
-            print(str(tally))
+        operation = operationchoice.upper().split()
+        # splits up each word of the user input into a list
+        tally = []  # final list that is
+        for i in range(0, len(operation) // 2):  # repeats the following as many times as there are arguments
+            try:
+                tally.append(eval(operation[1].upper() + "(" + operation[0] + ", " + operation[2] + ")"))
+            # tries to pass the first and third values of the operations list through the argument function said in
+            # the second value of the operations list (0 OR 1 will pass 0 and 1 through the OR function). It will then
+            # append what returns to the tally list.
+
+            except IndexError:
+                print(
+                    "Please ensure you're providing at least two values and an argument (example: '1 and 0 and 1 or 1')")
+                # if the user invalidly inputs (ie saying AND 1 OR 1) then it will stop them from doing it
+
+            finally:
+                if len(operation) > 3:
+                    del operation[0]
+                    del operation[0]
+                    print(operation)
+            # this piece of code executes if there was no IndexError exception. It will check if the operations list
+            # is longer than 3 words (ie 1 AND 0 OR 1 will execute but 1 XOR 0 won't) and then delete the first two
+            # values of the operation list, so it can move on to the next argument (so 1 OR 0 AND 1 will become 1 AND 1
+            # as 1 OR 0 returns 1)
+            
+        print(''.join(tally))  # this prints the final calculation (example: 1 AND 1 OR 1 XOR 1 will return 110)
         break
 
 
@@ -133,3 +156,7 @@ while True:
 
     else:
         print("That is an invalid decision.")
+    # this piece of code is the first thing to execute. It asks for the user to input whether they want to use the 
+    # boolean operation function or the list operation function. If the user inputs an invalid function name, it will
+    # ask them to input a valid function.
+    
